@@ -9,19 +9,26 @@
   <title>Success Project</title>
 </head>
 <body class="text-success-black text-lg">
+
   <!-- Header Desktop -->
-  <header class="w-full px-8 h-[60px] hidden lg:flex justify-between items-center shadow-md fixed bg-white z-50">
-    <img src="./assets/images/succes-logo.png" alt="">
-    <nav>
+  <header class="w-full px-2 lg:px-8 h-[60px] flex justify-between items-center shadow-md fixed bg-white z-50">
+    <img src="./assets/images/succes-logo.png" alt="" class="h-full py-4">
+    <div class="flex flex-col gap-1 lg:hidden" id="burger">
+      <div class="bg-success-black h-[4px] w-[30px] rounded-full"></div>
+      <div class="bg-success-black h-[4px] w-[30px] rounded-full"></div>
+      <div class="bg-success-black h-[4px] w-[30px] rounded-full"></div>
+    </div>
+
+    <nav class="hidden lg:block" id="nav">
       <ul class="flex gap-12">
         <li><a href="#about" class="hover:text-success-orange">About</a></li>
-        <li><a href="" class="hover:text-success-orange">Events</a></li>
-        <li><a href="" class="hover:text-success-orange">University</a></li>
+        <li><a href="#events" class="hover:text-success-orange">Events</a></li>
+        <li><a href="#universities" class="hover:text-success-orange">Universities</a></li>
         <li><a href="" class="hover:text-success-orange">News</a></li>
         <li><a href="" class="hover:text-success-orange">Medias</a></li>
       </ul>
     </nav>
-    <div class="flex gap-4">
+    <div class="hidden lg:flex gap-4">
       <a href="" class="hover:text-success-orange"><i class="fab fa-linkedin fa-lg"></i></a>
       <a href="" class="hover:text-success-orange"><i class="fab fa-facebook fa-lg"></i></a>
       <a href="" class="hover:text-success-orange"><i class="fab fa-tiktok fa-lg"></i></a>
@@ -33,7 +40,7 @@
     <div class="bg-success-orange/50 backdrop-blur p-8 rounded-xl text-white text-center max-w-md">
       <h2 class="text-4xl mb-4 font-bold">SUCCESS Project</h2>
       <p class="text-lg mb-8">Join the success community to become the better engineer you can be!</p>
-      <a href="" class="bg-success-white/50 rounded-lg p-4 hover:bg-success-orange/50 font-bold text-success-orange/80 hover:text-white">About us?</a>
+      <a href="#about" class="bg-success-white/50 rounded-lg p-4 hover:bg-success-orange/50 font-bold text-success-orange/80 hover:text-white">About us?</a>
     </div>
     <h2 class="text-6xl lg:text-8xl font-bold text-white opacity-75 ">Cartagena</h2>
   </section>
@@ -87,7 +94,7 @@
   </section>
 
   <!-- Events Section -->
-  <section class="bg-success-black text-white pb-16 lg:pb-[200px]">
+  <section class="bg-success-black text-white pb-16 lg:pb-[200px]" id="events">
     <h2 class="text-black/25 font-bold text-8xl lg:text-10xl ml-auto justify-self-end">Events</h2>
     <h3 class="text-success-orange -mt-8 mb-8 w-9/12 mx-auto">Events</h3>
     <div class="w-9/12 mx-auto flex flex-col gap-16">
@@ -102,7 +109,7 @@
         </div>
       </div>
 
-      <div class="flex flex-col gap-6 lg:gap-0 lg:flex-row justify-between">
+      <div class="flex flex-col gap-12 lg:gap-0 lg:flex-row justify-between">
 
         <div class="lg:text-center">
           <img src="./assets/images/dresden3.png" alt="" class="rounded-xl">
@@ -133,28 +140,29 @@
   </section>
 
   <!-- Universities Section -->
-  <section class="mb-16 lg:mb-[200px]">
+  <section class="mb-16 lg:mb-[200px]" id="universities">
     <h2 class="text-success-white/90 font-bold text-6xl lg:text-10xl">Universities</h2>
     <h3 class="text-success-orange -mt-8 mb-8 text-center">Participating Universities</h3>
     <h4 class="text-2xl font-bold text-center">Discover the participating universities</h4>
-    <div class="w-9/12 mx-auto flex flex-wrap mt-16 gap-6 justify-center">
-      <article class="w-1/4 flex justify-center items-center rounded-xl">
+    <div class="w-9/12 mx-auto flex flex-wrap lg:mt-16 gap-6 justify-center">
+
+      <article class="w-[300px] flex justify-center items-center rounded-xl">
         <img src="./assets/images/UPC.png" alt="" class="object-cover">
       </article>
 
-      <article class="w-1/4 flex justify-center items-center rounded-xl">
+      <article class="w-[300px] flex justify-center items-center rounded-xl">
         <img src="./assets/images/TUD.png" alt="" class="object-cover">
       </article>
 
-      <article class="w-1/4 flex justify-center items-center rounded-xl">
+      <article class="w-[300px] flex justify-center items-center rounded-xl">
         <img src="./assets/images/PULV.png" alt="" class="object-cover">
       </article>
 
-      <article class="w-1/4  flex justify-center items-center rounded-xl">
+      <article class="w-[300px] flex justify-center items-center rounded-xl">
         <img src="./assets/images/RTU.png" alt="" class="object-cover">
       </article>
 
-      <article class="w-1/4 flex justify-center items-center rounded-xl">
+      <article class="w-[300px] flex justify-center items-center rounded-xl">
         <img src="./assets/images/TPG.png" alt="" class="object-cover">
       </article>
 
@@ -165,6 +173,10 @@
   <footer>
 
   </footer>
+
+
+  <!-- Scripts Import -->
+  <script src="main.js"></script>
 
 </body>
 </html>
