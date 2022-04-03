@@ -546,8 +546,16 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-top: 4rem;
 }
 
+.mb-16 {
+  margin-bottom: 4rem;
+}
+
 .flex {
   display: flex;
+}
+
+.hidden {
+  display: none;
 }
 
 .h-\[60px\] {
@@ -594,12 +602,20 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 25%;
 }
 
+.w-11\/12 {
+  width: 91.666667%;
+}
+
 .max-w-md {
   max-width: 28rem;
 }
 
 .flex-col {
   flex-direction: column;
+}
+
+.flex-col-reverse {
+  flex-direction: column-reverse;
 }
 
 .flex-wrap {
@@ -725,6 +741,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-bottom: 200px;
 }
 
+.pb-16 {
+  padding-bottom: 4rem;
+}
+
 .text-center {
   text-align: center;
 }
@@ -766,6 +786,16 @@ Ensure the default browser behavior of the `hidden` attribute.
 .text-2xl {
   font-size: 1.5rem;
   line-height: 2rem;
+}
+
+.text-6xl {
+  font-size: 3.75rem;
+  line-height: 1;
+}
+
+.text-9xl {
+  font-size: 8rem;
+  line-height: 1;
 }
 
 .font-bold {
@@ -827,4 +857,86 @@ Ensure the default browser behavior of the `hidden` attribute.
 .hover\:text-white:hover {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+@media (min-width: 1024px) {
+  .lg\:mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .lg\:my-4 {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .lg\:mb-\[200px\] {
+    margin-bottom: 200px;
+  }
+
+  .lg\:flex {
+    display: flex;
+  }
+
+  .lg\:w-9\/12 {
+    width: 75%;
+  }
+
+  .lg\:w-3\/12 {
+    width: 25%;
+  }
+
+  .lg\:w-1\/2 {
+    width: 50%;
+  }
+
+  .lg\:w-1\/3 {
+    width: 33.333333%;
+  }
+
+  .lg\:w-2\/3 {
+    width: 66.666667%;
+  }
+
+  .lg\:flex-row {
+    flex-direction: row;
+  }
+
+  .lg\:justify-between {
+    justify-content: space-between;
+  }
+
+  .lg\:gap-16 {
+    gap: 4rem;
+  }
+
+  .lg\:gap-0 {
+    gap: 0px;
+  }
+
+  .lg\:p-0 {
+    padding: 0px;
+  }
+
+  .lg\:pb-\[200px\] {
+    padding-bottom: 200px;
+  }
+
+  .lg\:text-center {
+    text-align: center;
+  }
+
+  .lg\:text-right {
+    text-align: right;
+  }
+
+  .lg\:text-10xl {
+    font-size: 10rem;
+    line-height: 1;
+  }
+
+  .lg\:text-8xl {
+    font-size: 6rem;
+    line-height: 1;
+  }
 }
