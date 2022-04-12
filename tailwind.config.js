@@ -13,9 +13,6 @@ module.exports = {
       fontSize: {
         "10xl": ["10rem", { lineHeight: '1', }]
       },
-      fontFamily: {
-        'success': ''
-      }
     },
   },
   plugins: [],
