@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\News;
 use App\Repository\NewsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,8 +14,9 @@ class NewsController extends AbstractController
     #[Route('/', name: 'news_index')]
     public function index(NewsRepository $newsRepository): Response
     {
+        $news = $newsRepository->findAll();
         return $this->render('news/index.html.twig', [
-            'allNews' => $newsRepository->findAll()
+            'news' => $news
         ]);
     }
 

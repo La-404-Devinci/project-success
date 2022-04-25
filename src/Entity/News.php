@@ -17,7 +17,7 @@ class News
     private $title;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $img_slug;
+    private $img;
 
     #[ORM\Column(type: 'text')]
     private $text;
@@ -30,6 +30,10 @@ class News
 
     #[ORM\Column(type: 'datetime')]
     private $updatedAt;
+
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private $user;
 
     public function getId(): ?int
     {
@@ -48,14 +52,14 @@ class News
         return $this;
     }
 
-    public function getImgSlug(): ?string
+    public function getImg(): ?string
     {
-        return $this->img_slug;
+        return $this->img;
     }
 
-    public function setImgSlug(string $img_slug): self
+    public function setImg(string $img): self
     {
-        $this->img_slug = $img_slug;
+        $this->img = $img;
 
         return $this;
     }
@@ -104,6 +108,18 @@ class News
     public function setUpdatedAt(\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

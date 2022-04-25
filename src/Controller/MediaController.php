@@ -11,8 +11,6 @@ class MediaController extends AbstractController
     #[Route('/media', name: 'media_index')]
     public function index(): Response
     {
-        return $this->render('media/index.html.twig', [
-            'controller_name' => 'MediaController',
-        ]);
+        return $this->render('media/index.html.twig');
     }
 }
