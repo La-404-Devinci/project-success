@@ -61,9 +61,14 @@ class AdminController extends AbstractController
         $form = $this->createForm(NewsType::class, $news);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
+            $image = $form->get('img')->getData();
+            $file = md5(uniqid()) . '.' . $image->getExtension();
+            $image->move($this->getParameter('images_directory'), $file);
+            $news->setImg($file);
+            $news->setUser($this->getUser());
             $entityManager->persist($news);
             $entityManager->flush();
-            return $this->redirectToRoute('news_show', ['id' => $news], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('news_show', ['id' => $news->getId()]);
         }
         return $this->renderForm('admin/news/create.html.twig', [
             'news' => $news,

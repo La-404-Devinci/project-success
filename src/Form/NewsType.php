@@ -20,6 +20,7 @@ class NewsType extends AbstractType
             ->add('place')
             ->add('img', FileType::class, [
                 'mapped' => false,
+                'label' => 'Upload a file',
                 'constraints' => [
                     new File([
                         'maxSize' => '5120k',

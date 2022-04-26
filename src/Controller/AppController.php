@@ -12,7 +12,7 @@ class AppController extends AbstractController
     #[Route('/', name: 'home')]
     public function index(NewsRepository $newsRepository): Response
     {
-        $news = $newsRepository->findBy(criteria: [], orderBy: ['createdAt'=> 'DESC'], limit: 6);
+        $news = $newsRepository->findBy(criteria: [], orderBy: ['createdAt'=> 'DESC'], limit: 8);
         return $this->render('app/index.html.twig', [
             'news' => $news
         ]);

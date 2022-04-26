@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\NewsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\Entity(repositoryClass: NewsRepository::class)]
 class News
@@ -26,9 +27,11 @@ class News
     private $place;
 
     #[ORM\Column(type: 'datetime')]
+    #[Gedmo\Timestampable(on: 'create')]
     private $createdAt;
 
     #[ORM\Column(type: 'datetime')]
+    #[Gedmo\Timestampable(on: 'update')]
     private $updatedAt;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
