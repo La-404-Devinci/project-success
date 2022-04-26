@@ -12,6 +12,7 @@
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
+        <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
     </head>
     <body class="w-full min-h-screen flex flex-col justify-between">
         {% include ('partials/header.html.twig') %}

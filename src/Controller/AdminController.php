@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Controller\User;
 use App\Entity\News;
+use App\Form\NewsType;
 use App\Repository\NewsRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -56,7 +57,18 @@ class AdminController extends AbstractController
     #[Route('/news/create', name: 'dashboard_news_create')]
     public function news_create(Request $request, EntityManagerInterface $entityManager): Response
     {
-        return $this->render('admin/news/create.html.twig');
+        $news = new News();
+        $form = $this->createForm(NewsType::class, $news);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($news);
+            $entityManager->flush();
+            return $this->redirectToRoute('news_show', ['id' => $news], Response::HTTP_SEE_OTHER);
+        }
+        return $this->renderForm('admin/news/create.html.twig', [
+            'news' => $news,
+            'form' => $form
+        ]);
     }
 
     #[Route('/news/{id}/edit', name: 'dashboard_news_edit')]
