@@ -23,7 +23,7 @@
         <div class="w-11/12 lg:w-9/12 mx-auto flex flex-col gap-16">
 
             <div class="flex flex-col gap-6 lg:flex-row lg:justify-between">
-                <h4 class="font-bold text-4xl lg:w-3/12">What is project SUCCESS?</h4>
+                <h4 class="font-bold text-4xl text-center lg:text-left lg:w-3/12">What is project SUCCESS?</h4>
                 <div class="lg:text-right lg:w-1/2">
                     <p class="font-bold text-lg mb-4">Quisque. Maecenas. Eros mus. Hymenaeos eros. Nisi mauris et adipiscing. Aliquam class bibendum</p>
                     <p>Quisque. Maecenas. Eros mus. Hymenaeos eros. Nisi mauris et adipisc iquam class bibendum non mattis fusceut perspiciatis undeuisque. Maecenas. Eros mus. Hymenaeos eros. Nisi mauris et adipiscing. Aliquam class bibendum mattis fusceut persecenas. Eros mus</p>
@@ -120,23 +120,23 @@
         <div class="w-9/12 mx-auto flex flex-wrap lg:mt-16 gap-6 justify-center">
 
             <a class="w-[260px] flex justify-center items-center rounded-xl hover:opacity-75 duration-300" href="https://www.upct.es/" target="_blank">
-                <img src="./assets/images/UPC.png" alt="" class="object-cover rounded-xl">
+                <img src="./assets/images/UPC.png" alt="" class="object-cover rounded-xl bg-white">
             </a>
 
             <a class="w-[260px] flex justify-center items-center rounded-xl hover:opacity-75 duration-300" href="https://tu-dresden.de/" target="_blank">
-                <img src="./assets/images/TUD.png" alt="" class="object-cover rounded-xl">
+                <img src="./assets/images/TUD.png" alt="" class="object-cover rounded-xl bg-white">
             </a>
 
             <a class="w-[260px] flex justify-center items-center rounded-xl hover:opacity-75 duration-300" href="https://www.devinci.fr/" target="_blank">
-                <img src="./assets/images/PULV.png" alt="" class="object-cover rounded-xl">
+                <img src="./assets/images/PULV.png" alt="" class="object-cover rounded-xl bg-white">
             </a>
 
             <a class="w-[260px] flex justify-center items-center rounded-xl hover:opacity-75 duration-300" href="https://www.rtu.lv/en" target="_blank">
-                <img src="./assets/images/RTU.png" alt="" class="object-cover rounded-xl">
+                <img src="./assets/images/RTU.png" alt="" class="object-cover rounded-xl bg-white">
             </a>
 
             <a class="w-[260px] flex justify-center items-center rounded-xl hover:opacity-75 duration-300" href="http://thepyramidgroup.biz/" target="_blank">
-                <img src="./assets/images/TPG.png" alt="" class="object-cover rounded-xl">
+                <img src="./assets/images/TPG.png" alt="" class="object-cover rounded-xl bg-white">
             </a>
 
         </div>
@@ -152,10 +152,10 @@
             <a href="{{ path('news_index') }}" class="text-white text-3xl font-bold hover:underline duration-300">See our lastest news</a>
         </div>
 
-        <div class="w-9/12 grid grid-cols-4 gap-4 mx-auto">
+        <div class="w-9/12 flex flex-wrap gap-4 justify-center mx-auto">
 
             {% for article in news %}
-                <article class="flex flex-col bg-black/60 duration-300 h-[425px] rounded-xl overflow-hidden relative">
+                <article class="flex flex-col bg-black/60 duration-300 w-[340px] h-[425px] rounded-xl overflow-hidden relative">
                     <div class="h-1/2">
                         <img src="/assets/uploads/{{ article.img }}" alt="" class="w-full h-full object-cover">
                     </div>
@@ -164,12 +164,15 @@
                             <h3 class="font-medium text-lg text-success-orange">{{ article.title }}</h3><p>• {{ article.createdAt | date("Y/m/d") }}</p>
                         </div>
                         <div>
-                            {{ article.text | striptags | slice(0,160) }}...
+                            {{ article.text | striptags | slice(0,160) | raw }}...
                         </div>
                         <a href="{{ path('news_show', {'id': article.id }) }}" class="bg-success-orange/70 hover:bg-success-orange duration-300 px-4 py-1 rounded-lg absolute bottom-4 right-4">See more</a>
                     </div>
                 </article>
             {% endfor %}
+            {% if news|length == 0 %}
+                <p class="text-xl font-medium">No news were actually published... 😢</p>
+            {% endif %}
         </div>
 
     </section>

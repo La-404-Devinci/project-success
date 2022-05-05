@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Controller\User;
 use App\Entity\News;
+use App\Entity\User;
 use App\Form\NewsType;
 use App\Repository\NewsRepository;
 use App\Repository\UserRepository;
@@ -19,68 +19,118 @@ class AdminController extends AbstractController
     #[Route('/', name: 'dashboard')]
     public function index(): Response
     {
-        return $this->redirectToRoute('dashboard_news_index');
+        if($this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('dashboard_news_index');
+        }
+        else {
+            return $this->redirectToRoute('home');
+        }
     }
 
     #[Route('/users', name: 'dashboard_users_index')]
     public function user_index(UserRepository $userRepository): Response
     {
-        return $this->render('admin/users/index.html.twig', [
-            'users' => $userRepository->findAll()
-        ]);
+        if($this->isGranted('ROLE_ADMIN')) {
+            return $this->render('admin/users/index.html.twig', [
+                'users' => $userRepository->findAll()
+            ]);
+        }
+        else {
+            return $this->redirectToRoute('home');
+        }
     }
 
     #[Route('/users/{id}/edit', name: 'dashboard_users_edit')]
     public function user_edit(User $user): Response
     {
-        return $this->render('admin/users/edit.html.twig', [
-            'user' => $user
-        ]);
+        if($this->isGranted('ROLE_ADMIN')) {
+            return $this->render('admin/users/edit.html.twig', [
+                'user' => $user
+            ]);
+        }
+        else {
+            return $this->redirectToRoute('home');
+        }
     }
 
     #[Route('/users/{id}', name: 'dashboard_users_delete')]
     public function user_delete(User $user): Response
     {
-        return $this->render('admin/users/index.html.twig', [
-            'user' => $user
-        ]);
+        if($this->isGranted('ROLE_ADMIN')) {
+            return $this->render('admin/users/index.html.twig', [
+                'user' => $user
+            ]);
+        }
+        else {
+            return $this->redirectToRoute('home');
+        }
     }
 
     #[Route('/news', name: 'dashboard_news_index')]
     public function news_index(NewsRepository $newsRepository): Response
     {
-        return $this->render('admin/news/index.html.twig', [
-            'news' => $newsRepository->findAll()
-        ]);
+        if($this->isGranted('ROLE_ADMIN')) {
+            return $this->render('admin/news/index.html.twig', [
+                'news' => $newsRepository->findAll()
+            ]);
+        }
+        else {
+            return $this->redirectToRoute('home');
+        }
     }
 
     #[Route('/news/create', name: 'dashboard_news_create')]
     public function news_create(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $news = new News();
-        $form = $this->createForm(NewsType::class, $news);
-        $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()) {
-            $image = $form->get('img')->getData();
-            $file = md5(uniqid()) . '.' . $image->getExtension();
-            $image->move($this->getParameter('images_directory'), $file);
-            $news->setImg($file);
-            $news->setUser($this->getUser());
-            $entityManager->persist($news);
-            $entityManager->flush();
-            return $this->redirectToRoute('news_show', ['id' => $news->getId()]);
+        if($this->isGranted('ROLE_ADMIN')) {
+            $news = new News();
+            $form = $this->createForm(NewsType::class, $news);
+            $form->handleRequest($request);
+            if($form->isSubmitted() && $form->isValid()) {
+                $image = $form->get('img')->getData();
+                $file = md5(uniqid()) . '.' . $image->getExtension();
+                $image->move($this->getParameter('images_directory'), $file);
+                $news->setImg($file);
+                $news->setUser($this->getUser());
+                $entityManager->persist($news);
+                $entityManager->flush();
+                return $this->redirectToRoute('news_show', ['id' => $news->getId()]);
+            }
+            return $this->renderForm('admin/news/create.html.twig', [
+                'news' => $news,
+                'form' => $form
+            ]);
         }
-        return $this->renderForm('admin/news/create.html.twig', [
-            'news' => $news,
-            'form' => $form
-        ]);
+        else {
+            return $this->redirectToRoute('home');
+        }
     }
 
     #[Route('/news/{id}/edit', name: 'dashboard_news_edit')]
     public function news_edit(News $news): Response
     {
-        return $this->render('admin/news/edit.html.twig', [
-            'news' => $news
-        ]);
+        if($this->isGranted('ROLE_ADMIN')) {
+            return $this->render('admin/news/edit.html.twig', [
+                'news' => $news
+            ]);
+        }
+        else {
+            return $this->redirectToRoute('home');
+        }
+    }
+
+    #[Route('/news/{id}', name: 'dashboard_news_delete')]
+    public function news_delete(News $news, Request $request, EntityManagerInterface $manager): Response
+    {
+        if($this->isGranted('ROLE_ADMIN')) {
+            if($this->isCsrfTokenValid('delete'.$news->getId(), $request->request->get('_token'))) {
+                $manager->remove($news);
+                $manager->flush();
+            }
+            return $this->redirectToRoute('dashboard_news_index', [], Response::HTTP_SEE_OTHER);
+        }
+        else {
+            return $this->redirectToRoute('home');
+        }
     }
 }
