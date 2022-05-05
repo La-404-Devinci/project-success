@@ -3,7 +3,7 @@
 {% block title %}Create News •️ Dashboard{% endblock %}
 
 {% block page %}News{% endblock%}
-{% block create %}{{ path('dashboard_news_create')}}{% endblock %}
+{% block button %}<a href="{{ path('dashboard_news_index')}}" class="bg-success-orange/70 hover:bg-success-orange text-white text-lg font-medium px-4 py-1 rounded duration-300"><i class="fas fa-arrow-left"></i> Back</a>{% endblock %}
 
 {% block body %}
     <div class="container mx-auto px-6 py-8">
