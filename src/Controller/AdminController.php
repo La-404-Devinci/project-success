@@ -55,12 +55,14 @@ class AdminController extends AbstractController
     }
 
     #[Route('/users/{id}', name: 'dashboard_users_delete')]
-    public function user_delete(User $user): Response
+    public function user_delete(User $user, EntityManagerInterface $manager, Request $request): Response
     {
         if($this->isGranted('ROLE_ADMIN')) {
-            return $this->render('admin/users/index.html.twig', [
-                'user' => $user
-            ]);
+            if($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
+                $manager->remove($user);
+                $manager->flush();
+            }
+            return $this->redirectToRoute('dashboard_users_index', [], Response::HTTP_SEE_OTHER);
         }
         else {
             return $this->redirectToRoute('home');
