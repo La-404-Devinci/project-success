@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Form\NewsType;
 use App\Repository\NewsRepository;
 use App\Repository\UserRepository;
+use App\Services\UploadFileHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -70,8 +71,10 @@ class AdminController extends AbstractController
     public function news_index(NewsRepository $newsRepository): Response
     {
         if($this->isGranted('ROLE_ADMIN')) {
+
+            $news = $newsRepository->findAll();
             return $this->render('admin/news/index.html.twig', [
-                'news' => $newsRepository->findAll()
+                'news' => $news
             ]);
         }
         else {
@@ -80,7 +83,7 @@ class AdminController extends AbstractController
     }
 
     #[Route('/news/create', name: 'dashboard_news_create')]
-    public function news_create(Request $request, EntityManagerInterface $entityManager): Response
+    public function news_create(Request $request, EntityManagerInterface $entityManager, UploadFileHelper $uploadFile): Response
     {
         if($this->isGranted('ROLE_ADMIN')) {
             $news = new News();
@@ -88,9 +91,7 @@ class AdminController extends AbstractController
             $form->handleRequest($request);
             if($form->isSubmitted() && $form->isValid()) {
                 $image = $form->get('img')->getData();
-                $file = md5(uniqid()) . '.' . $image->getExtension();
-                $image->move($this->getParameter('images_directory'), $file);
-                $news->setImg($file);
+                $news->setImg($uploadFile->upload($image));
                 $news->setUser($this->getUser());
                 $entityManager->persist($news);
                 $entityManager->flush();
@@ -107,11 +108,23 @@ class AdminController extends AbstractController
     }
 
     #[Route('/news/{id}/edit', name: 'dashboard_news_edit')]
-    public function news_edit(News $news): Response
+    public function news_edit(News $news, Request $request, UploadFileHelper $uploadFile, EntityManagerInterface $manager): Response
     {
         if($this->isGranted('ROLE_ADMIN')) {
-            return $this->render('admin/news/edit.html.twig', [
-                'news' => $news
+            $form = $this->createForm(NewsType::class, $news);
+            $form->handleRequest($request);
+
+            if($form->isSubmitted() && $form->isValid()) {
+                if ($image = $form->get('img')->getData()) {
+                    $news->setImg($uploadFile->upload($image));
+                }
+                $manager->flush();
+                return $this->redirectToRoute('news_show', ['id' => $news->getId()]);
+            }
+
+            return $this->renderForm('admin/news/edit.html.twig', [
+                'news' => $news,
+                'form' => $form
             ]);
         }
         else {
