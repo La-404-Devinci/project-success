@@ -6,7 +6,6 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "success-white": "#F3F3F3",
         "success-black": "#595959",
         "success-orange": "#FF6400",
       },

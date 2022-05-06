@@ -14,11 +14,11 @@
         {% endblock %}
         <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
     </head>
-    <body class="w-full min-h-screen flex flex-col justify-between bg-gray-1">
+    <body class="w-full min-h-screen flex flex-col justify-between bg-gray-100">
         {% include ('partials/header.html.twig') %}
 
         {% block body %}{% endblock %}
 
-        {#{% include ('partials/footer.html.twig') %}#}
+        {% include ('partials/footer.html.twig') %}
     </body>
 </html>
