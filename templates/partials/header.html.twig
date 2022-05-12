@@ -1,0 +1,33 @@
+<!-- Header Desktop -->
+<header class="w-full px-2 lg:px-8 h-[60px] flex justify-between items-center shadow-md sticky top-0 bg-white z-50">
+    <img src="{{ asset('assets/images/succes-logo.png') }}" alt="" class="h-full py-4">
+
+    <nav class="hidden lg:flex" id="nav">
+        <ul class="flex gap-12 font-medium">
+            <li><a href="{{ path('home') }}" class="hover:text-success-orange duration-300">Home</a></li>
+            <li><a href="{{ path('home') }}#about" class="hover:text-success-orange duration-300">About</a></li>
+            <li><a href="{{ path('home') }}#events" class="hover:text-success-orange duration-300">Events</a></li>
+            <li><a href="{{ path('home') }}#universities" class="hover:text-success-orange duration-300">Universities</a></li>
+            <li><a href="{{ path('news_index') }}" class="hover:text-success-orange duration-300">News</a></li>
+            <li><a href="{{ path('media_index') }}" class="hover:text-success-orange  duration-300">Medias</a></li>
+        </ul>
+    </nav>
+    <div class="hidden lg:flex gap-4">
+        <a href="https://www.facebook.com/project.success21" target="_blank" class="hover:text-success-orange  duration-300"><i class="fab fa-facebook fa-lg"></i></a>
+        <a href="https://www.tiktok.com/@project.success" target="_blank" class="hover:text-success-orange  duration-300"><i class="fab fa-tiktok fa-lg"></i></a>
+    </div>
+
+    <div x-data="{ open: false }" class="relative lg:hidden">
+        <button @click="open = ! open"><i class="fas fa-bars fa-2x"></i></button>
+        <nav x-show="open" @click.outside="open = false" class="absolute -bottom-54 right-2">
+            <ul class="bg-white shadow rounded overflow-hidden">
+                <li class="hover:bg-success-orange hover:text-white duration-300 p-2"><a href="{{ path('home') }}" >Home</a></li>
+                <li class="hover:bg-success-orange hover:text-white duration-300 p-2"><a href="{{ path('home') }}#about">About</a></li>
+                <li class="hover:bg-success-orange hover:text-white duration-300 p-2"><a href="{{ path('home') }}#events">Events</a></li>
+                <li class="hover:bg-success-orange hover:text-white duration-300 p-2"><a href="{{ path('home') }}#universities">Universities</a></li>
+                <li class="hover:bg-success-orange hover:text-white duration-300 p-2"><a href="{{ path('news_index') }}">News</a></li>
+                <li class="hover:bg-success-orange hover:text-white duration-300 p-2"><a href="{{ path('media_index') }}">Medias</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
