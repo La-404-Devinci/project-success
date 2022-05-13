@@ -31,6 +31,9 @@ class Resource
     #[ORM\Column(type: 'datetime')]
     private $UpdatedAt;
 
+    #[ORM\Column(type: 'text', nullable: true)]
+    private $Description;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -92,6 +95,18 @@ class Resource
     public function setUpdatedAt(\DateTimeInterface $UpdatedAt): self
     {
         $this->UpdatedAt = $UpdatedAt;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->Description;
+    }
+
+    public function setDescription(?string $Description): self
+    {
+        $this->Description = $Description;
 
         return $this;
     }
