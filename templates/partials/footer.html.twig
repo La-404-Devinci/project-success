@@ -8,38 +8,34 @@
         </div>
     </div>
 
-    <div class="flex justify-between gap-16 px-12 py-4 pb-16 bg-success-black text-white">
-        <div class="w-1/4 flex flex-col gap-4">
+    <div class="flex flex-col lg:flex-row lg:justify-between gap-16 px-12 py-4 pb-16 bg-success-black text-white">
+        <div class="w-3/4 lg:w-3/12 flex flex-col gap-4">
             <h3 class="text-lg font-medium border-b-2 border-success-orange w-fit pr-2">Success</h3>
-            <p class="font-light">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam amet beatae commodi delectus, doloremque, ex excepturi fugit ipsa laborum minus natus nobis porro provident qui, quibusdam rem sed tempora unde!</p>
-            <img src="" alt="">
+            <p class="font-light">Success is a project that is internationally linked, allowing engineering students to attend lectures at seminars in other schools.</p>
+            <img class="w-2/3" src="{{ asset('assets/images/Cofunded-Logo.png') }}" alt="">
         </div>
 
-        <div class="w-1/6 flex flex-col gap-4">
+        <div class="w-3/4 lg:w-1/6 flex flex-col gap-4">
             <h3 class="text-lg font-medium border-b-2 border-success-orange w-fit pr-2">Navigation</h3>
             <ul class="font-light">
                 <li class="hover:underline hover:text-success-orange duration-300"><a href="{{ path('home') }}#about">About</a></li>
                 <li class="hover:underline hover:text-success-orange duration-300"><a href="{{ path('home') }}#events">Events</a></li>
                 <li class="hover:underline hover:text-success-orange duration-300"><a href="{{ path('home') }}#university">University</a></li>
                 <li class="hover:underline hover:text-success-orange duration-300"><a href="{{ path('news_index') }}">News</a></li>
-                <li class="hover:underline hover:text-success-orange duration-300"><a href="{{ path('media_index') }}">Medias</a></li>
+                <!--<li class="hover:underline hover:text-success-orange duration-300"><a href="{{ path('media_index') }}">Medias</a></li>-->
             </ul>
         </div>
 
-        <div class="w-1/6 flex flex-col gap-4">
+        <div class="w-3/4 lg:w-3/12 flex flex-col gap-4">
             <h3 class="text-lg border-b-2 border-success-orange w-fit pr-2">Contact</h3>
             <ul>
                 <li class="flex gap-2 items-center">
                     <i class="fas fa-envelope"></i>
-                    <p class="font-light">Un mail</p>
+                    <p class="font-light">project-success21@outlook.com </p>
                 </li>
                 <li class="flex gap-2 items-center">
                     <i class="fas fa-map-pin"></i>
                     <p class="font-light">Une adresse</p>
-                </li>
-                <li class="flex gap-2 items-center">
-                    <i class="fas fa-phone-square-alt"></i>
-                    <p class="font-light">Une numéro de téléphone</p>
                 </li>
             </ul>
         </div>
