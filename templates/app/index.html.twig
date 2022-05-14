@@ -49,12 +49,13 @@
 
             <div class="hidden lg:flex flex-col justify-center gap-6 ">
                 <div class="flex gap-10 justify-center relative">
-                    <div class="rounded-full w-[220px] h-[220px] bg-success-orange absolute -top-16 left-[160px] -z-10 flex-wrap"></div>
-                    <img class="rounded-full" src="./assets/images/cartagena2.png" alt="">
-                    <img class="rounded-full" src="./assets/images/dresden2.png" alt="">
-                    <img class="rounded-full" src="./assets/images/riga2.png" alt="">
-                    <img class="rounded-full" src="./assets/images/paris2.png" alt="">
-                    <div class="rounded-full w-[220px] h-[220px] bg-success-orange absolute -bottom-16 right-[160px] -z-10 flex-wrap"></div>
+                    <div class="rounded-full w-[220px] h-[220px] bg-success-orange absolute -top-16 left-[140px] -z-10 flex-wrap"></div>
+                    <img class="rounded-full w-52" src="./assets/images/cartagena2.png" alt="Cartagena">
+                    <img class="rounded-full w-52" src="./assets/images/dresden2.png" alt="Dresden">
+                    <img class="rounded-full w-52" src="./assets/images/riga2.png" alt="Riga">
+                    <img class="rounded-full w-52" src="./assets/images/paris2.png" alt="Paris">
+                    <img class="rounded-full w-52" src="./assets/images/ulm.jpeg" alt="Ulm">
+                    <div class="rounded-full w-[220px] h-[220px] bg-success-orange absolute -bottom-16 right-[140px] -z-10 flex-wrap"></div>
                 </div>
                 <p class="w-1/2 mx-auto text-center">Various events will be held at the different partner universities, where students will be able to visit the city in their free time as well as enjoy cultural tours offered by SUCCESS.</p>
             </div>
@@ -69,7 +70,7 @@
         <div class="w-9/12 mx-auto flex flex-col gap-16">
 
             <div class="flex flex-col lg:flex-row lg:gap-16 lg:items-center">
-                <img src="./assets/images/cartagena3.png" alt="" class="rounded-xl">
+                <img src="./assets/images/cartagena.jpeg" alt="" class="rounded-xl ">
                 <div>
                     <div class="flex lg:flex-col lg:justify-start lg:items-start justify-between items-center">
                         <h3 class="text-4xl font-bold">Cartagena</h3>
@@ -118,9 +119,9 @@
 
     <!-- Universities Section -->
     <section class="mb-16 lg:mb-[200px]" id="universities">
-        <h2 class="text-gray-100 font-bold text-6xl lg:text-10xl">Universities</h2>
+        <h2 class="text-gray-100 font-bold text-6xl lg:text-10xl">Partners</h2>
         <h3 class="text-success-orange -mt-6 mb-8 text-center">Project Participants</h3>
-        <h4 class="text-2xl font-bold text-center">Discover the participating universities</h4>
+        <h4 class="text-2xl font-bold text-center">Discover the participating partners</h4>
         <div class="w-9/12 mx-auto flex flex-wrap lg:mt-16 gap-6 justify-center">
 
             <a class="w-[190px] flex justify-center items-center rounded-xl hover:opacity-75 duration-300 min-h-[150px]" href="https://www.upct.es/" target="_blank">
@@ -144,40 +145,5 @@
             </a>
 
         </div>
-    </section>
-
-    <!-- Last News Section -->
-    <section class="bg-success-black text-white pb-16 lg:pb-[200px]" id="news">
-        <div class="w-11/12 flex justify-between items-center mb-8">
-            <div>
-                <h2 class="text-black/25 font-bold text-8xl lg:text-10xl ml-auto justify-self-end">News</h2>
-                <h3 class="text-success-orange -mt-8 mb-8 w-9/12 mx-auto">Lastest News</h3>
-            </div>
-            <a href="{{ path('news_index') }}" class="text-white text-3xl font-bold hover:underline duration-300 text-right">See our lastest news</a>
-        </div>
-
-        <div class="w-9/12 flex flex-wrap gap-4 justify-center mx-auto">
-
-            {% for article in news %}
-                <article class="flex flex-col bg-black/60 duration-300 w-[340px] h-[425px] rounded-xl overflow-hidden relative">
-                    <div class="h-1/2">
-                        <img src="/assets/uploads/{{ article.img }}" alt="" class="w-full h-full object-cover">
-                    </div>
-                    <div class="h-1/2 p-3">
-                        <div class="flex items-center gap-1">
-                            <h3 class="font-medium text-lg text-success-orange">{{ article.title }}</h3><p>• {{ article.createdAt | date("Y/m/d") }}</p>
-                        </div>
-                        <div>
-                            {{ article.text | striptags | slice(0,160) | raw }}...
-                        </div>
-                        <a href="{{ path('news_show', {'id': article.id }) }}" class="bg-success-orange/70 hover:bg-success-orange duration-300 px-4 py-1 rounded-lg absolute bottom-4 right-4">See more</a>
-                    </div>
-                </article>
-            {% endfor %}
-            {% if news|length == 0 %}
-                <p class="text-xl font-medium">No news were actually published... 😢</p>
-            {% endif %}
-        </div>
-
     </section>
 {% endblock %}
