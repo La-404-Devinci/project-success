@@ -30,7 +30,7 @@ class ResourceType extends AbstractType
                 'label' => 'Upload a file',
                 'constraints' => [
                     new File([
-                        'maxSize' => '5120k',
+                        'maxSize' => '30720k',
                         'maxSizeMessage' => 'Please upload a file thad didn\'t exceed 5Mo!',
                     ])
                 ]

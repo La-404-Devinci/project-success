@@ -8,12 +8,12 @@
                     <div class="grid grid-cols-6 gap-6">
                         <div class="col-span-6 sm:col-span-3">
                             {{ form_label(form.title, 'Title', {'label_attr': {'class': 'block text-sm font-medium text-gray-700' }}) }}
-                            {{ form_widget(form.title, { 'attr': {'class': 'mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow sm:text-sm border-gray-300 rounded-md p-2', 'placeholder': 'Title of your resource...'}}) }}
+                            {{ form_widget(form.title, { 'attr': {'class': 'mt-1 focus:ring-success-orange focus:border-success-orange block w-full sm:text-sm border border-gray-300 rounded-md p-2', 'placeholder': 'Title of your resource...'}}) }}
                         </div>
 
                         <div class="col-span-6 sm:col-span-3">
                             {{ form_label(form.link, 'Link', {'label_attr': {'class': 'block text-sm font-medium text-gray-700' }}) }}
-                            {{ form_widget(form.link, { 'attr': {'class': 'mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow sm:text-sm border-gray-300 rounded-md p-2', 'placeholder': 'Link of your resource...'}}) }}
+                            {{ form_widget(form.link, { 'attr': {'class': 'mt-1 focus:ring-success-orange focus:border-success-orange block w-full  sm:text-sm border border-gray-300 rounded-md p-2 ', 'placeholder': 'Link of your resource...'}}) }}
                         </div>
 
                         <div class="col-span-6">
@@ -29,12 +29,10 @@
                                         </div>
                                         <p class="pl-1">or drag and drop</p>
                                     </div>
-                                    <p class="text-xs text-gray-500">PNG and JPG up to 5MB</p>
+                                    <p class="text-xs text-gray-500">Upload up to 30MB</p>
                                 </div>
                             </div>
                         </div>
-
-
 
                         <div class="col-span-6">
                             {{ form_label(form.description, 'Description', {'label_attr': {'class': 'block text-sm font-medium text-gray-700' }}) }}
