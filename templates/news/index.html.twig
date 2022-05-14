@@ -3,16 +3,37 @@
 {% block title %}News • Success Project{% endblock %}
 
 {% block body %}
-<main class="w-11/12 h-full lg:w-9/12 mx-auto">
-    <section class="w-full grid grid-cols-3 gap-4">
-        {% for article in news %}
-            <article>
-                <img src="{{ article.img }}" alt="" class="h-9/12">
-                <div>
-                    <h2>{{ article.title }}</h2>
-                </div>
-            </article>
-        {% endfor %}
+    <section class="pb-16 lg:pb-[200px]" id="news">
+        <div class="w-11/12 flex justify-between items-center mb-8">
+            <div>
+                <h2 class="text-gray-100 font-bold text-8xl lg:text-10xl ml-auto justify-self-end">News</h2>
+                <h3 class="text-success-orange -mt-8 mb-8 w-9/12 mx-auto">Lastest News</h3>
+            </div>
+            <a href="{{ path('news_index') }}" class="text-white text-3xl font-bold hover:underline duration-300 text-right">See our lastest news</a>
+        </div>
+
+        <div class="w-9/12 flex flex-wrap gap-4 justify-center mx-auto">
+
+            {% for article in news %}
+                <article class="flex flex-col duration-300 w-[340px] h-[425px] rounded-xl overflow-hidden relative text-success-black shadow-md">
+                    <div class="h-1/2">
+                        <img src="/assets/uploads/{{ article.img }}" alt="" class="w-full h-full object-cover">
+                    </div>
+                    <div class="h-1/2 p-3">
+                        <div class="flex items-center gap-1">
+                            <h3 class="font-medium text-lg text-success-orange">{{ article.title }}</h3><p>• {{ article.createdAt | date("Y/m/d") }}</p>
+                        </div>
+                        <div>
+                            {{ article.text | striptags | slice(0,160) | raw }}...
+                        </div>
+                        <a href="{{ path('news_show', {'id': article.id }) }}" class="bg-success-orange/70 hover:bg-success-orange text-white duration-300 px-4 py-1 rounded-lg absolute bottom-4 right-4">See more</a>
+                    </div>
+                </article>
+            {% endfor %}
+            {% if news|length == 0 %}
+                <p class="text-xl font-medium">No news were actually published... 😢</p>
+            {% endif %}
+        </div>
+
     </section>
-</main>
 {% endblock %}
