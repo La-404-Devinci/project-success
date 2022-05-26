@@ -45,6 +45,18 @@
                                     <td class="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-200 text-sm leading-5 font-medium w-1/12">
                                         <div class="flex justify-end gap-2 text-white">
                                             {% if app.user is not same as(user) %}
+                                                {% if 'ROLE_SUPER_ADMIN' not in user.roles %}
+                                                    <form method="post" action="{{ path('dashboard_users_superauthorize', {'id': user.id}) }}" onsubmit="return confirm('Are you sure you want to super authorize this user?')">
+                                                        <input type="hidden" name="_token" value="{{ csrf_token('authorize' ~ user.id) }}">
+                                                        <button class="bg-green-600 hover:bg-green-900 mx-2 px-4 py-2 rounded whitespace-nowrap">Add Super Admin</button>
+                                                    </form>
+                                                {% endif %}
+                                                {% if 'ROLE_SUPER_ADMIN' in user.roles %}
+                                                    <form method="post" action="{{ path('dashboard_users_superunauthorized', {'id': user.id}) }}" onsubmit="return confirm('Are you sure you want to super unauthorized this user?')">
+                                                        <input type="hidden" name="_token" value="{{ csrf_token('unauthorized' ~ user.id) }}">
+                                                        <button class="bg-orange-600 hover:bg-orange-900 px-4 py-2 rounded mx-2 whitespace-nowrap">Del Super Admin</button>
+                                                    </form>
+                                                {% endif %}
                                                 {% if 'ROLE_ADMIN' not in user.roles %}
                                                     <form method="post" action="{{ path('dashboard_users_authorize', {'id': user.id}) }}" onsubmit="return confirm('Are you sure you want to authorize this user?')">
                                                         <input type="hidden" name="_token" value="{{ csrf_token('authorize' ~ user.id) }}">

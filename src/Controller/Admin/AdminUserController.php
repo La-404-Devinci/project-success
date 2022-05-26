@@ -16,20 +16,20 @@ class AdminUserController extends AbstractController
     #[Route('/', name: 'dashboard_users_index')]
     public function index(UserRepository $userRepository): Response
     {
-        if($this->isGranted('ROLE_ADMIN')) {
+        if($this->isGranted('ROLE_SUPER_ADMIN')) {
             return $this->render('admin/users/index.html.twig', [
                 'users' => $userRepository->findAll()
             ]);
         }
         else {
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('dashboard');
         }
     }
 
     #[Route('/{id}', name: 'dashboard_users_delete')]
     public function delete(User $user, EntityManagerInterface $manager, Request $request): Response
     {
-        if($this->isGranted('ROLE_ADMIN')) {
+        if($this->isGranted('ROLE_SUPER_ADMIN')) {
             if($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
                 $manager->remove($user);
                 $manager->flush();
@@ -37,16 +37,32 @@ class AdminUserController extends AbstractController
             return $this->redirectToRoute('dashboard_users_index', [], Response::HTTP_SEE_OTHER);
         }
         else {
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('dashboard');
         }
     }
 
     #[Route('/{id}/authorize', name: 'dashboard_users_authorize')]
     public function authorize(User $user, EntityManagerInterface $manager, Request $request): Response
     {
-        if($this->isGranted('ROLE_ADMIN')) {
+        if($this->isGranted('ROLE_SUPER_ADMIN')) {
             if($this->isCsrfTokenValid('authorize'.$user->getId(), $request->request->get('_token'))) {
                 $user->setRoles(["ROLE_ADMIN"]);
+                $manager->persist($user);
+                $manager->flush();
+            }
+            return $this->redirectToRoute('dashboard_users_index', [], Response::HTTP_SEE_OTHER);
+        }
+        else {
+            return $this->redirectToRoute('dashboard');
+        }
+    }
+
+    #[Route('/{id}/superauthorize', name: 'dashboard_users_superauthorize')]
+    public function superauthorize(User $user, EntityManagerInterface $manager, Request $request): Response
+    {
+        if($this->isGranted('ROLE_SUPER_ADMIN')) {
+            if($this->isCsrfTokenValid('authorize'.$user->getId(), $request->request->get('_token'))) {
+                $user->setRoles(["ROLE_SUPER_ADMIN", "ROLE_ADMIN"]);
                 $manager->persist($user);
                 $manager->flush();
             }
@@ -60,9 +76,25 @@ class AdminUserController extends AbstractController
     #[Route('/{id}/unauthorized', name: 'dashboard_users_unauthorized')]
     public function unauthorized(User $user, EntityManagerInterface $manager, Request $request): Response
     {
-        if($this->isGranted('ROLE_ADMIN')) {
+        if($this->isGranted('ROLE_SUPER_ADMIN')) {
             if($this->isCsrfTokenValid('unauthorized'.$user->getId(), $request->request->get('_token'))) {
                 $user->setRoles([]);
+                $manager->persist($user);
+                $manager->flush();
+            }
+            return $this->redirectToRoute('dashboard_users_index', [], Response::HTTP_SEE_OTHER);
+        }
+        else {
+            return $this->redirectToRoute('dashboard');
+        }
+    }
+
+    #[Route('/{id}/superunauthorized', name: 'dashboard_users_superunauthorized')]
+    public function superunauthorized(User $user, EntityManagerInterface $manager, Request $request): Response
+    {
+        if($this->isGranted('ROLE_SUPER_ADMIN')) {
+            if($this->isCsrfTokenValid('unauthorized'.$user->getId(), $request->request->get('_token'))) {
+                $user->setRoles(["ROLE_ADMIN"]);
                 $manager->persist($user);
                 $manager->flush();
             }
