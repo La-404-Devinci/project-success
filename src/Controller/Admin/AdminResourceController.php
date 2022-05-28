@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/admin/resource')]
 class AdminResourceController extends AbstractController
 {
-    #[Route('/', name: 'dashboard_resource_index')]
+    #[Route('/', name: 'dashboard_resources_index')]
     public function index(ResourceRepository $resourceRepository): Response
     {
         $resources = $resourceRepository->findAll();
@@ -24,7 +24,7 @@ class AdminResourceController extends AbstractController
         ]);
     }
 
-    #[Route('/create', name: 'dashboard_resource_create')]
+    #[Route('/create', name: 'dashboard_resources_create')]
     public function create(Request $request, EntityManagerInterface $entityManager, UploadFileHelper $uploadFile): Response
     {
         $resource = new Resource();
@@ -37,6 +37,7 @@ class AdminResourceController extends AbstractController
                 $resource->setFile($uploadFile->upload($file));
                 $resource->setLink(null);
             }
+            $resource->setFile(null);
             $entityManager->persist($resource);
             $entityManager->flush();
             return $this->redirectToRoute('dashboard_resource_index');
@@ -48,7 +49,7 @@ class AdminResourceController extends AbstractController
         ]);
     }
 
-    #[Route('{id}', name: 'dashboard_resource_delete')]
+    #[Route('/{id}/delete', name: 'dashboard_resources_delete')]
     public function delete(Resource $resource ,Request $request, EntityManagerInterface $manager)
     {
         if($this->isGranted('ROLE_ADMIN')) {

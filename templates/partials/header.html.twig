@@ -1,6 +1,6 @@
 {% if app.user %}
 <div class="bg-success-orange">
-    <div class="max-w-7xl mx-auto py-3 px-3 sm:px-6 lg:px-8">
+    <div class="w-full mx-auto py-3 px-2 lg:px-8">
     <div class="flex items-center justify-between flex-wrap">
         <div class="w-0 flex-1 flex items-center">
         <span class="flex p-2 rounded-lg bg-white">
@@ -11,11 +11,11 @@
         </span>
         <p class="ml-3 font-medium text-white truncate">
             {% if is_granted('ROLE_ADMIN') %}
-            <span class="md:hidden">Hello {{ app.user.username }} ! </span>
-            <span class="hidden md:inline">Hello {{ app.user.username }}, you can access to the Dashboard !</span>
+                <span class="md:hidden">Hello {{ app.user.username }} ! </span>
+                <span class="hidden md:inline">Hello {{ app.user.username }}, you can access to the Dashboard !</span>
             {% else %}
-            <span class="md:hidden">Hello {{ app.user.username }}, Please Logout.</span>
-            <span class="hidden md:inline">Hello {{ app.user.username }}, you're not an Administrator. Please Logout.</span>
+                <span class="md:hidden">Hello {{ app.user.username }}, please logout.</span>
+                <span class="hidden md:inline">Hello {{ app.user.username }}, you're not an Administrator. Please Logout.</span>
             {% endif %}
         </p>
         </div>
@@ -31,10 +31,11 @@
     </div>
 </div>
 {% endif %}
+
 <!-- Header Desktop -->
 <header class="w-full px-2 lg:px-8 h-[60px] flex justify-between items-center shadow-md sticky top-0 bg-white z-50">
     <div class="flex items-center content-center gap-4 w-36">
-        <img src="{{ asset('assets/images/succes-logo.png') }}" alt="" class="h-16 py-4">
+        <img src="{{ asset('assets/images/success-logo.png') }}" alt="" class="h-16 py-4">
         <img src="{{ asset('assets/images/EU-logo.jpeg') }}" alt="" class="h-full w-16 py-4">
     </div>
 
@@ -46,6 +47,7 @@
             <li><a href="{{ path('home') }}#universities" class="hover:text-success-orange duration-300">Partners</a></li>
             <li><a href="{{ path('news_index') }}" class="hover:text-success-orange duration-300">News</a></li>
             <!--<li><a href="{{ path('media_index') }}" class="hover:text-success-orange  duration-300">Medias</a></li>-->
+            <li><a href="{{ path('resources_index') }}" class="hover:text-success-orange duration-300">Resources</a></li>
         </ul>
     </nav>
     <div class="hidden lg:flex gap-4 w-36 flex justify-end">
@@ -65,6 +67,7 @@
                 <li class="hover:bg-success-orange hover:text-white duration-300 p-2"><a href="{{ path('home') }}#universities">Universities</a></li>
                 <li class="hover:bg-success-orange hover:text-white duration-300 p-2"><a href="{{ path('news_index') }}">News</a></li>
                 <!--<li class="hover:bg-success-orange hover:text-white duration-300 p-2"><a href="{{ path('media_index') }}">Medias</a></li>-->
+                <li class="hover:bg-success-orange hover:text-white duration-300 p-2"><a href="{{ path('resources_index') }}">Resources</a></li>
             </ul>
         </nav>
     </div>

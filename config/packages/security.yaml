@@ -42,13 +42,13 @@ security:
 
     role_hierarchy:
         ROLE_ADMIN: [IS_AUTHENTICATED]
-        ROLE_SUPER_ADMIN: [ADMIN]
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN]
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/admin, roles: IS_AUTHENTICATED }
-        - { path: ^/admin/users, roles: ADMIN }
+        - { path: ^/admin/users, roles: ROLE_SUPER_ADMIN }
 
 when@test:
     security:

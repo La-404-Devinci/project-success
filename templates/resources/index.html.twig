@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Resources • Success Project{% endblock %}
+
+{% block body %}
+    <section class="pb-16 lg:pb-[200px]">
+        <div class="w-11/12 flex justify-between items-center mb-8">
+            <div>
+                <h2 class="text-gray-100 font-bold text-8xl lg:text-10xl ml-auto justify-self-end">Resources</h2>
+            </div>
+        </div>
+
+        <div class="w-9/12 flex flex-wrap gap-4 justify-center mx-auto">
+            {% for resource in resources %}
+                <article class="flex flex-col duration-300 w-[340px] h-[340px] rounded-xl overflow-hidden relative text-success-black shadow-md p-4">
+                    <a
+                        href="{{ resource.link ? resource.link : resource.file ? '/assets/uploads/' . resource.file : 'no file found' }}"
+                        class="text-success-orange w-full h-2/6 flex justify-center items-center border-2 border-gray-300 border-dashed rounded mb-2"
+                        target="_blank"
+                    >
+                        <i class="fas fa-file mr-0.5"></i>
+                        File link
+                    </a>
+                    <div class="flex items-center gap-1">
+                        <h3 class="font-medium text-lg ">{{ resource.title }}</h3><p>• {{ resource.createdAt | date("Y/m/d") }}</p>
+                    </div>
+                    <p>{{ resource.description | striptags | raw }}</p>
+                </article>
+            {% endfor %}
+            {% if resources|length == 0 %}
+                <p class="text-xl font-medium">No resources were actually published</p>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}
