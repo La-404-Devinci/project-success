@@ -15,9 +15,6 @@ class ResourcesController extends AbstractController
     #[Route('/', name: 'resources_index')]
     public function index(ResourceRepository $resourceRepository): Response
     {
-        if(!$this->isGranted('ROLE_ADMIN')) {
-            return $this->redirectToRoute('home');
-        }
         $resources = $resourceRepository->findAll();
         return $this->render('resources/index.html.twig', [
             'resources' => $resources
