@@ -125,9 +125,9 @@
         <div class="w-9/12 mx-auto flex flex-wrap lg:mt-16 gap-14 justify-center items-end">
             {% for partner in partners %}
                 <a class="w-[190px] flex justify-center items-center rounded-xl hover:opacity-75 duration-300 min-h-[150px]" href="{{ partner.url }}" target="_blank">
-                    <img src="/assets/uploads/{{ partner.image }}" alt="{{ partner.name }} logo" class="object-cover rounded-sm bg-white">
+                    <img src="/assets/uploads/{{ partner.image }}" alt="{{ partner.name }} logo" class="w-full h-full my-auto object-cover rounded-sm bg-white">
                 </a>
             {% endfor %}
-         </div>
+        </div>
     </section>
 {% endblock %}
