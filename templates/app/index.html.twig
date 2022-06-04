@@ -122,28 +122,12 @@
         <h2 class="text-gray-100 font-bold text-6xl lg:text-10xl">Partners</h2>
         <h3 class="text-success-orange -mt-6 mb-8 text-center">Project Participants</h3>
         <h4 class="text-2xl font-bold text-center">Discover the participating partners</h4>
-        <div class="w-9/12 mx-auto flex flex-wrap lg:mt-16 gap-6 justify-center">
-
-            <a class="w-[190px] flex justify-center items-center rounded-xl hover:opacity-75 duration-300 min-h-[150px]" href="https://www.upct.es/" target="_blank">
-                <img src="./assets/images/UPCT.svg" alt="" class="object-cover rounded-sm bg-white">
-            </a>
-
-            <a class="w-[190px] flex justify-center items-center rounded-xl hover:opacity-75 duration-300 min-h-[150px]" href="https://tu-dresden.de/" target="_blank">
-                <img src="./assets/images/TUD.svg" alt="" class="object-cover rounded-sm bg-white">
-            </a>
-
-            <a class="w-[190px] flex justify-center items-center rounded-xl hover:opacity-75 duration-300 min-h-[150px]" href="https://www.devinci.fr/" target="_blank">
-                <img src="./assets/images/PULV.png" alt="" class="object-cover rounded-sm bg-white">
-            </a>
-
-            <a class="w-[190px] flex justify-center items-center rounded-xl hover:opacity-75 duration-300 min-h-[150px]" href="https://www.rtu.lv/en" target="_blank">
-                <img src="./assets/images/RTU.svg" alt="" class="object-cover rounded-sm bg-white">
-            </a>
-
-            <a class="w-[190px] flex justify-center items-center rounded-xl hover:opacity-75 duration-300 min-h-[150px]" href="http://thepyramidgroup.biz/" target="_blank">
-                <img src="./assets/images/TPG.png" alt="" class="object-cover rounded-sm bg-white">
-            </a>
-
+        <div class="w-9/12 mx-auto flex flex-wrap lg:mt-16 gap-14 justify-center items-end">
+            {% for partner in partners %}
+                <a class="w-[190px] flex justify-center items-center rounded-xl hover:opacity-75 duration-300 min-h-[150px]" href="{{ partner.url }}" target="_blank">
+                    <img src="/assets/uploads/{{ partner.image }}" alt="{{ partner.name }} logo" class="w-full h-full my-auto object-cover rounded-sm bg-white">
+                </a>
+            {% endfor %}
         </div>
     </section>
 {% endblock %}

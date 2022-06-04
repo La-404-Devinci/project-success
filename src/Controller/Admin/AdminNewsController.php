@@ -5,7 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\News;
 use App\Form\NewsType;
 use App\Repository\NewsRepository;
-use App\Services\UploadFileHelper;
+use App\Services\UploadFileService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,85 +15,74 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/admin/news')]
 class AdminNewsController extends AbstractController
 {
-    #[Route('/', name: 'dashboard_news_index')]
-    public function index(NewsRepository $newsRepository): Response
-    {
-        if($this->isGranted('ROLE_ADMIN')) {
+    public function __construct(
+        protected NewsRepository $newsRepository,
+        protected UploadFileService $uploadFile,
+    ){}
 
-            $news = $newsRepository->findAll();
-            return $this->render('admin/news/index.html.twig', [
-                'news' => $news
-            ]);
-        }
-        else {
+    public function isAdmin()
+    {
+        if(!$this->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('home');
         }
+    }
+
+    #[Route('/', name: 'dashboard_news_index')]
+    public function index(): Response
+    {
+        $this->isAdmin();
+        $news = $this->newsRepository->findAll();
+        return $this->render('admin/news/index.html.twig', [
+            'news' => $news
+        ]);
     }
 
     #[Route('/create', name: 'dashboard_news_create')]
-    public function create(Request $request, EntityManagerInterface $entityManager, UploadFileHelper $uploadFile): Response
+    public function create(Request $request): Response
     {
-        if($this->isGranted('ROLE_ADMIN')) {
-            $news = new News();
-            $form = $this->createForm(NewsType::class, $news);
-            $form->handleRequest($request);
-
-            if($form->isSubmitted() && $form->isValid()) {
-                $image = $form->get('img')->getData();
-                $news->setImg($uploadFile->upload($image));
-                $news->setUser($this->getUser());
-                $entityManager->persist($news);
-                $entityManager->flush();
-                return $this->redirectToRoute('news_show', ['id' => $news->getId()]);
-            }
-
-            return $this->renderForm('admin/news/create.html.twig', [
-                'news' => $news,
-                'form' => $form
-            ]);
+        $this->isAdmin();
+        $news = new News();
+        $form = $this->createForm(NewsType::class, $news);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) {
+            $image = $form->get('img')->getData();
+            $news->setImg($this->uploadFile->upload($image));
+            $news->setUser($this->getUser());
+            $this->newsRepository->add($news);
+            return $this->redirectToRoute('news_show', ['id' => $news->getId()]);
         }
-        else {
-            return $this->redirectToRoute('home');
-        }
+        return $this->renderForm('admin/news/create.html.twig', [
+            'news' => $news,
+            'form' => $form
+        ]);
     }
 
     #[Route('/{id}/edit', name: 'dashboard_news_edit')]
-    public function edit(News $news, Request $request, UploadFileHelper $uploadFile, EntityManagerInterface $manager): Response
+    public function edit(Request $request, News $news): Response
     {
-        if($this->isGranted('ROLE_ADMIN')) {
-            $form = $this->createForm(NewsType::class, $news);
-            $form->handleRequest($request);
-
-            if($form->isSubmitted() && $form->isValid()) {
-                if ($image = $form->get('img')->getData()) {
-                    $news->setImg($uploadFile->upload($image));
-                }
-                $manager->flush();
-                return $this->redirectToRoute('news_show', ['id' => $news->getId()]);
+        $this->isAdmin();
+        $form = $this->createForm(NewsType::class, $news);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) {
+            if ($image = $form->get('img')->getData()) {
+                $news->setImg($this->uploadFile->upload($image));
             }
-
-            return $this->renderForm('admin/news/edit.html.twig', [
-                'news' => $news,
-                'form' => $form
-            ]);
+            $this->newsRepository->add($news);
+            return $this->redirectToRoute('news_show', ['id' => $news->getId()]);
         }
-        else {
-            return $this->redirectToRoute('home');
-        }
+        return $this->renderForm('admin/news/edit.html.twig', [
+            'news' => $news,
+            'form' => $form
+        ]);
     }
 
     #[Route('/{id}', name: 'dashboard_news_delete')]
-    public function delete(News $news, Request $request, EntityManagerInterface $manager): Response
+    public function delete(Request $request, News $news): Response
     {
-        if($this->isGranted('ROLE_ADMIN')) {
-            if($this->isCsrfTokenValid('delete'.$news->getId(), $request->request->get('_token'))) {
-                $manager->remove($news);
-                $manager->flush();
-            }
-            return $this->redirectToRoute('dashboard_news_index', [], Response::HTTP_SEE_OTHER);
+        $this->isAdmin();
+        if($this->isCsrfTokenValid('delete'.$news->getId(), $request->request->get('_token'))) {
+            $this->newsRepository->remove($news);
         }
-        else {
-            return $this->redirectToRoute('home');
-        }
+        return $this->redirectToRoute('dashboard_news_index', [], Response::HTTP_SEE_OTHER);
     }
 }
