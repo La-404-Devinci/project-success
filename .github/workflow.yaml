@@ -1,0 +1,30 @@
+name: PROD SYMFONY
+on:
+  push:
+    branches:
+      - main
+    pull_request:
+      branches:
+      - main
+
+jobs:
+  build:
+    runs-on: Debian-10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.0
+
+      - name: Configure SSH
+        env:
+          SSH_KEY: ${{ secrets.PRIVATE_KEY }}
+          SSH_HOST: ${{ secrets.TARGET_HOST }}
+          SSH_USER: ${{ secrets.TARGET_USER }}
+          SSH_PWD: ${{ secrets.TARGET_PDW }}
+
+      - name: Composer dependencies
+        run: php composer.phar install -q --no-interaction --prefer-dist --optimize-autoloader

@@ -5,44 +5,57 @@ namespace App\Controller\Admin;
 use App\Entity\Resource;
 use App\Form\ResourceType;
 use App\Repository\ResourceRepository;
-use App\Services\UploadFileHelper;
+use App\Services\UploadFileService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/admin/resource')]
+#[Route('/admin/resources')]
 class AdminResourceController extends AbstractController
 {
-    #[Route('/', name: 'dashboard_resources_index')]
-    public function index(ResourceRepository $resourceRepository): Response
+    public function __construct(
+        protected ResourceRepository $resourceRepository,
+        protected UploadFileService $uploadFileHelper,
+    ){}
+
+    public function isAdmin()
     {
-        $resources = $resourceRepository->findAll();
+        if(!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('home');
+        }
+    }
+
+    #[Route('/', name: 'dashboard_resources_index')]
+    public function index(): Response
+    {
+        $this->isAdmin();
+        $resources = $this->resourceRepository->findAll();
         return $this->render('admin/resources/index.html.twig', [
             'resources' => $resources
         ]);
     }
 
     #[Route('/create', name: 'dashboard_resources_create')]
-    public function create(Request $request, EntityManagerInterface $entityManager, UploadFileHelper $uploadFile): Response
+    public function create(Request $request): Response
     {
+        $this->isAdmin();
         $resource = new Resource();
         $form = $this->createForm(ResourceType::class, $resource);
         $form->handleRequest($request);
-
         if($form->isSubmitted() && $form->isValid()) {
             // Check if a file was set and if it's, set link to null
             if (($file = $form->get('file')->getData()) !== null) {
-                $resource->setFile($uploadFile->upload($file));
+                $resource->setFile($this->uploadFileHelper->upload($file));
                 $resource->setLink(null);
             }
-            $resource->setFile(null);
-            $entityManager->persist($resource);
-            $entityManager->flush();
-            return $this->redirectToRoute('dashboard_resource_index');
+            else {
+                $resource->setFile(null);
+            }
+            $this->resourceRepository->add($resource);
+            return $this->redirectToRoute('dashboard_resources_index');
         }
-
         return $this->renderForm('admin/resources/create.html.twig', [
             'resource' => $resource,
             'form' => $form,
@@ -50,17 +63,12 @@ class AdminResourceController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'dashboard_resources_delete')]
-    public function delete(Resource $resource ,Request $request, EntityManagerInterface $manager)
+    public function delete(Request $request, Resource $resource)
     {
-        if($this->isGranted('ROLE_ADMIN')) {
-            if($this->isCsrfTokenValid('delete'.$resource->getId(), $request->request->get('_token'))) {
-                $manager->remove($resource);
-                $manager->flush();
-            }
-            return $this->redirectToRoute('dashboard_resource_index', [], Response::HTTP_SEE_OTHER);
+        $this->isAdmin();
+        if($this->isCsrfTokenValid('delete'.$resource->getId(), $request->request->get('_token'))) {
+            $this->resourceRepository->remove($resource);
         }
-        else {
-            return $this->redirectToRoute('home');
-        }
+        return $this->redirectToRoute('dashboard_resources_index', [], Response::HTTP_SEE_OTHER);
     }
 }
