@@ -2,12 +2,10 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\News;
 use App\Entity\Partner;
 use App\Form\PartnerType;
 use App\Repository\PartnerRepository;
 use App\Services\UploadFileService;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,7 +17,7 @@ class AdminPartnerController extends AbstractController
 {
     public function __construct(
         protected PartnerRepository $partnerRepository,
-        protected UploadFileService $uploadFileHelper,
+        protected UploadFileService $uploadFileService,
     ){}
 
     public function isSuperAdmin()
@@ -47,7 +45,7 @@ class AdminPartnerController extends AbstractController
         $form = $this->createForm(PartnerType::class, $partner);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
-            $partner->setImage($this->uploadFileHelper->upload($form->get('image')->getData()));
+            $partner->setImage($this->uploadFileService->upload($form->get('image')->getData()));
             $this->partnerRepository->add($partner);
             return $this->redirectToRoute('dashboard_partners_index');
         }

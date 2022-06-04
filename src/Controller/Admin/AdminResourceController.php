@@ -6,7 +6,6 @@ use App\Entity\Resource;
 use App\Form\ResourceType;
 use App\Repository\ResourceRepository;
 use App\Services\UploadFileService;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +16,7 @@ class AdminResourceController extends AbstractController
 {
     public function __construct(
         protected ResourceRepository $resourceRepository,
-        protected UploadFileService $uploadFileHelper,
+        protected UploadFileService $uploadFileService,
     ){}
 
     public function isAdmin()
@@ -47,7 +46,7 @@ class AdminResourceController extends AbstractController
         if($form->isSubmitted() && $form->isValid()) {
             // Check if a file was set and if it's, set link to null
             if (($file = $form->get('file')->getData()) !== null) {
-                $resource->setFile($this->uploadFileHelper->upload($file));
+                $resource->setFile($this->uploadFileService->upload($file));
                 $resource->setLink(null);
             }
             else {

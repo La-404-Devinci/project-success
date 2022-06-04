@@ -4,7 +4,6 @@ namespace App\Controller\Admin;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
-use App\Services\UploadFileService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,7 +15,6 @@ class AdminUserController extends AbstractController
 {
     public function __construct(
         protected UserRepository $userRepository,
-        protected UploadFileService $uploadFileHelper,
     ){}
 
     public function isSuperAdmin()
@@ -37,12 +35,11 @@ class AdminUserController extends AbstractController
     }
 
     #[Route('/{id}', name: 'dashboard_users_delete')]
-    public function delete(User $user, EntityManagerInterface $manager, Request $request): Response
+    public function delete(Request $request, User $user): Response
     {
         $this->isSuperAdmin();
         if($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
-            $manager->remove($user);
-            $manager->flush();
+            $this->userRepository->remove($user);
         }
         return $this->redirectToRoute('dashboard_users_index', [], Response::HTTP_SEE_OTHER);
     }
@@ -72,13 +69,12 @@ class AdminUserController extends AbstractController
     }
 
     #[Route('/{id}/unauthorized', name: 'dashboard_users_unauthorized')]
-    public function unauthorized(User $user, EntityManagerInterface $manager, Request $request): Response
+    public function unauthorized(User $user, Request $request): Response
     {
         $this->isSuperAdmin();
         if($this->isCsrfTokenValid('unauthorized'.$user->getId(), $request->request->get('_token'))) {
             $user->setRoles([]);
-            $manager->persist($user);
-            $manager->flush();
+            $this->userRepository->add($user);
         }
         return $this->redirectToRoute('dashboard_users_index', [], Response::HTTP_SEE_OTHER);
     }
@@ -89,8 +85,7 @@ class AdminUserController extends AbstractController
         $this->isSuperAdmin();
         if($this->isCsrfTokenValid('unauthorized'.$user->getId(), $request->request->get('_token'))) {
             $user->setRoles(["ROLE_ADMIN"]);
-            $manager->persist($user);
-            $manager->flush();
+            $this->userRepository->add($user);
         }
         return $this->redirectToRoute('dashboard_users_index', [], Response::HTTP_SEE_OTHER);
     }
