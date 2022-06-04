@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/admin/resource')]
+#[Route('/admin/resources')]
 class AdminResourceController extends AbstractController
 {
     #[Route('/', name: 'dashboard_resources_index')]

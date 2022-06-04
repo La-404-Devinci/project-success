@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Repository\NewsRepository;
+use App\Repository\PartnerRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -10,11 +10,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class AppController extends AbstractController
 {
     #[Route('/', name: 'home')]
-    public function index(NewsRepository $newsRepository): Response
+    public function index(PartnerRepository $partnerRepository): Response
     {
-        $news = $newsRepository->findBy(criteria: [], orderBy: ['createdAt'=> 'DESC'], limit: 3);
+        $partners = $partnerRepository->findall();
         return $this->render('app/index.html.twig', [
-            'news' => $news
+            'partners' => $partners,
         ]);
     }
 }
