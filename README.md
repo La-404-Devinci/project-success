@@ -56,7 +56,7 @@ $ npm install
 $ yarn install
 
 # migrate database after update .env
-$ symfon console doctrine:database:create
+$ symfony console doctrine:database:create
 $ symfony console doctrine:database:migrate
 
 # then just run : 
