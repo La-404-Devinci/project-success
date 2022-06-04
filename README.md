@@ -65,8 +65,6 @@ $ symfony serve
 $ npm run watch
 # or
 $ yarn watch
-
-
 ```
 ## Contributors
 
