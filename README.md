@@ -57,7 +57,7 @@ $ yarn install
 
 # migrate database after update .env
 $ symfony console doctrine:database:create
-$ symfony console doctrine:database:migrate
+$ symfony console doctrine:migrations:migrate
 
 # then just run : 
 $ symfony serve
