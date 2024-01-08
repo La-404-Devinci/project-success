@@ -47,7 +47,7 @@ class AdminResourceController extends AbstractController
             // Check if a file was set and if it's, set link to null
             if (($file = $form->get('file')->getData()) !== null) {
                 $resource->setFile($this->uploadFileService->upload($file));
-                $resource->setLink(null);
+                $resource->setLink('/assets/uploads/'.$resource->getFile());
             }
             else {
                 $resource->setFile(null);
