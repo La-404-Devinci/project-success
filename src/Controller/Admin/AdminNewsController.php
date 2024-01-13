@@ -30,7 +30,7 @@ class AdminNewsController extends AbstractController
     public function index(): Response
     {
         $this->isAdmin();
-        $news = $this->newsRepository->findAll();
+        $news = $this->newsRepository->findBy([], ['id' => 'DESC']);
         return $this->render('admin/news/index.html.twig', [
             'news' => $news
         ]);

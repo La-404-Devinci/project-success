@@ -26,7 +26,8 @@ class AppController extends AbstractController
     #[Route('/news', name: 'news_index')]
     public function newsIndex(NewsRepository $newsRepository): Response
     {
-        $news = $newsRepository->findAll();
+        // return in order desc
+        $news = $newsRepository->findBy([], ['id' => 'DESC']);
         return $this->render('news/index.html.twig', [
             'news' => $news,
         ]);
@@ -44,6 +45,9 @@ class AppController extends AbstractController
     #[Route('/media', name: 'media_index')]
     public function mediaIndex(): Response
     {
+        // redirect to home page
+        return $this->redirectToRoute('home');
+
         return $this->render('media/index.html.twig');
     }
 
@@ -51,7 +55,7 @@ class AppController extends AbstractController
     #[Route('/resources', name: 'resources_index')]
     public function resourcesIndex(ResourceRepository $resourceRepository): Response
     {
-        $resources = $resourceRepository->findAll();
+        $resources = $resourceRepository->findBy([], ['id' => 'DESC']);
         return $this->render('resources/index.html.twig', [
             'resources' => $resources,
         ]);

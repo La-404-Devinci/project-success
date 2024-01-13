@@ -30,7 +30,7 @@ class AdminResourceController extends AbstractController
     public function index(): Response
     {
         $this->isAdmin();
-        $resources = $this->resourceRepository->findAll();
+        $resources = $this->resourceRepository->findBy([], ['id' => 'DESC']);
         return $this->render('admin/resources/index.html.twig', [
             'resources' => $resources
         ]);
