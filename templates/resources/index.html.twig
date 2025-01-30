@@ -19,10 +19,11 @@
                         target="_blank"
                     >
                         <i class="fas fa-file mr-0.5"></i>
-                        File link
+                        Download
                     </a>
-                    <div class="flex items-center gap-1">
-                        <h3 class="font-medium text-lg ">{{ resource.title }}</h3><p>• {{ resource.createdAt | date("Y/m/d") }}</p>
+                    <div class="flex flex-col gap-1">
+                        <h3 class="font-medium text-lg ">{{ resource.title }}</h3>
+                        <p>{{ resource.createdAt | date("Y/m/d") }}</p>
                     </div>
                     <p>{{ resource.description | striptags | raw }}</p>
                 </article>
